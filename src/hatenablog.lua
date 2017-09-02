@@ -20,8 +20,14 @@ local _M = {}
 
 local Client = require 'hatenablog.client'
 local Entry = require 'hatenablog.entry'
+local Feed = require 'hatenablog.feed'
+local Categories = require 'hatenablog.categories'
 
 _M.Client = Client
 _M.Entry = Entry
+_M.Feed = Feed
+_M.Categories = Categories
+
+_M.new = _M.Client.new
 
 return _M
