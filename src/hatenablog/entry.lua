@@ -20,31 +20,33 @@ local _M = {}
 
 local Xml = require 'xml'
 local Lub = require 'lub'
+local Util = require 'hatenablog.util'
 
-local function split_string(str, sep)
-	local res = {}
-	local pattern = string.format('([^%s]+)', sep)
-	string.gsub(str, pattern, function(ch) res[#res + 1] = ch end)
-	return res
-end
+_M.Entry = {}
+_M.Entry.__index = _M.Entry
 
 function _M.load_xml(xml)
 	local data = Xml.load(xml)
 	local new_entry = {}
+
 	new_entry.uri = Xml.find(data, 'link', 'rel', 'alternate').href
 	new_entry.edit_uri = Xml.find(data, 'link', 'rel', 'edit').href
 	new_entry.author_name =	Xml.find(Xml.find(data, 'author'), 'name')[1]
 	new_entry.title = Xml.find(data, 'title')[1]
 	new_entry.content = Xml.find(data, 'content')[1]
 	new_entry.draft = Xml.find(Xml.find(data, 'app:control'), 'app:draft')[1]
+	new_entry.updated = Xml.find(data, 'updated')[1]
+
 	new_entry.categories = {}
 	Lub.search(data, function(node)
 		if node.xml == 'category' then
 			table.insert(new_entry.categories, node.term)
 		end
 	end)
-	local segs = split_string(new_entry.edit_uri, '/')
+
+	local segs = Util.split_string(new_entry.edit_uri, '/')
 	new_entry.id = segs[#segs]
+
 	return setmetatable(new_entry, _M.Entry)
 end
 
