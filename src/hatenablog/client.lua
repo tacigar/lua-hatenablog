@@ -23,10 +23,6 @@ local Entry = require 'hatenablog.entry'
 local Feed = require 'hatenablog.feed'
 local Categories = require 'hatenablog.categories'
 
-local REQUEST_TOKEN_PATH = "https://api.twitter.com/oauth/request_token"
-local ACCESS_TOKEN_PATH = "https://api.twitter.com/oauth/access_token"
-local AUTHORIZE_USER_PATH = "https://api.twitter.com/oauth/authorize"
-
 _M.Client = {}
 _M.Client.__index = _M.Client
 
@@ -43,11 +39,7 @@ function _M.new(config)
 		access_token_secret = config.access_token_secret or 'access_token_secret',
 	}
 
-	new_client.oauth_client = OAuth.new(new_client.consumer_key, new_client.consumer_secret, {
-		RequestToken = REQUEST_TOKEN_PATH,
-		AccessToken = ACCESS_TOKEN_PATH,
-		AUTHORIZE_USER_PATH = { AUTHORIZE_USER_PATH, method = 'GET' }
-	}, {
+	new_client.oauth_client = OAuth.new(new_client.consumer_key, new_client.consumer_secret, {}, {
 		OAuthToken = new_client.access_token,
 		OAuthTokenSecret = new_client.access_token_secret,
 	})
