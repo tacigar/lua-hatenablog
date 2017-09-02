@@ -29,7 +29,6 @@ function _M.load_xml(xml)
 	local data = Xml.load(xml)
 	local new_feed = {}
 
-	new_feed.uri = Xml.find(data, 'link', 'rel', 'alternate').href
 	new_feed.title = Xml.find(data, 'title')[1]
 	new_feed.author_name = Xml.find(Xml.find(data, 'author'), 'name')[1]
 	new_feed.updated = Xml.find(data, 'updated')[1]

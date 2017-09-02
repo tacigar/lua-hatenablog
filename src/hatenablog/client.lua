@@ -84,6 +84,7 @@ end
 function _M.Client:post_entry(args)
 	args.author_name = self.user_id
 	local entry_xml = Entry.build_xml(args)
+
 	local _, _, _, body = self.oauth_client:PerformRequest('POST', self:collection_uri(), entry_xml)
 	return Entry.load_xml(body)
 end
@@ -91,7 +92,7 @@ end
 function _M.Client:update_entry(entry_id, args)
 	args.author_name = self.user_id
 	local entry_xml = Entry.build_xml(args)
-	local _, _, _, body = self.oauth_client:PerformRequest('PUT', self:entry_uri(entry_id))
+	local _, _, _, body = self.oauth_client:PerformRequest('PUT', self:entry_uri(entry_id), entry_xml)
 	return Entry.load_xml(body)
 end
 
