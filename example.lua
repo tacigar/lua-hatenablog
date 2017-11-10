@@ -1,6 +1,5 @@
 package.path = "./src/?.lua;"..package.path
 
-local xml = require 'xml'
 local hatena = require 'hatenablog'
 
 local client = hatena.Client.new {
